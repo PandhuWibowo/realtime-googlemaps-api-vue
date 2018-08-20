@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Belajar List di Vue JS</title>
+</head>
+<body>
+	<div id="app">
+		<p v-if="items.length === 0">No item</p>
+		<ul>
+			<li v-for="item in items">{{item}} <a href="#" v-on:click="removeItem">Remove</a></li>
+		</ul>
+		
+		<input type="text" name="" v-model="item">
+		<button type="button" v-on:click="addItem">Add Item</button>
+		<br />
+		{{item}}
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el:'#app',
+			data: {
+				items: [],
+				item:''
+			},
+			methods:{
+				addItem(){
+					this.items.push(this.item)
+					localStorage.setItem('items', JSON.stringify(this.items))
+					this.item = ''
+				},
+				removeItem(item){
+					const index = this.items.indexOf(item)
+					this.items.splice(index, 1)
+					localStorage.setItem('items', JSON.stringify(this.items))
+
+				}
+			},
+			created(){
+				this.items = JSON.parse(localStorage.getItem('items')) || []
+			}
+		});
+	</script>
+</body>
+</html>
